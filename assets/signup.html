@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - SkillBridge</title>
+    <style>
+        :root {
+            --color-light-gray: #cad2c5;
+            --color-sage: #84a98c;
+            --color-medium-green: #52796f;
+            --color-dark-green: #354f52;
+            --color-darkest-green: #2f3e46;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background-color: var(--color-light-gray);
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Left Section Styles */
+        .left-section {
+            flex: 1;
+            background-color: var(--color-darkest-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--color-light-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--color-dark-green), var(--color-darkest-green));
+            opacity: 0.7;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .left-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-light-gray);
+        }
+
+        .left-content p {
+            font-size: 1.2rem;
+            color: var(--color-sage);
+        }
+
+        /* Right Section Styles */
+        .right-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-color: white;
+        }
+
+        .form-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(47, 62, 70, 0.1);
+        }
+
+        .form-box h2 {
+            color: var(--color-darkest-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        input {
+            padding: 12px;
+            border: 1px solid var(--color-sage);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--color-medium-green);
+            box-shadow: 0 0 0 2px rgba(82, 121, 111, 0.1);
+        }
+
+        button {
+            padding: 12px;
+            background-color: var(--color-medium-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        button:hover {
+            background-color: var(--color-dark-green);
+            transform: translateY(-1px);
+        }
+
+        .redirect-text {
+            text-align: center;
+            color: var(--color-darkest-green);
+            margin-top: 1rem;
+        }
+
+        .redirect-text a {
+            color: var(--color-medium-green);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .redirect-text a:hover {
+            color: var(--color-dark-green);
+        }
+
+        /* Role Selection Styles */
+        .role-selection {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--color-sage);
+            background-color: white;
+            color: var(--color-darkest-green);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .role-btn.active {
+            background-color: var(--color-medium-green);
+            color: white;
+            border-color: var(--color-medium-green);
+        }
+
+        .role-btn:hover {
+            background-color: var(--color-sage);
+            color: white;
+        }
+
+        /* Form Validation Styles */
+        input:invalid {
+            border-color: #ff6b6b;
+        }
+
+        input:valid {
+            border-color: var(--color-sage);
+        }
+
+        /* Loading State */
+        button.loading {
+            background-color: var(--color-sage);
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-section {
+                flex: 0 0 200px;
+            }
+
+            .form-box {
+                box-shadow: none;
+            }
+
+            input,
+            button {
+                font-size: 16px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-box {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Left Section (Branding) -->
+        <div class="left-section">
+            <div class="left-content">
+                <h1>SKILL-BRIDGE</h1>
+                <p>Connecting Talents With Opportunities</p>
+            </div>
+        </div>
+
+        <!-- Right Section (Sign-Up Form) -->
+        <div class="right-section">
+            <div class="form-box">
+                <h2>Create Your Account</h2>
+                <form id="signup-form">
+                    <div class="role-selection">
+                        <button type="button" class="role-btn active" data-role="worker">Worker</button>
+                        <button type="button" class="role-btn" data-role="employer">Employer</button>
+                    </div>
+                    <input type="text" id="name" placeholder="Full Name" required>
+                    <input type="email" id="email" placeholder="Email" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <input type="tel" id="phone" placeholder="Phone Number" required pattern="[0-9]{10}">
+                    <input id="location" placeholder="Location" required>
+
+                    <button type="submit">Sign Up</button>
+
+                    <p class="redirect-text">Already have an account? <a href="login.html">Login</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const roleButtons = document.querySelectorAll('.role-btn');
+        let selectedRole = 'worker';
+
+        roleButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                roleButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                selectedRole = this.dataset.role;
+            });
+        });
+
+        document.getElementById('signup-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = {
+                role: selectedRole,
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value
+            };
+
+            const button = this.querySelector('button[type="submit"]');
+            button.classList.add('loading');
+            button.textContent = 'Signing Up...';
+
+            fetch('/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Account created successfully!');
+                        window.location.href = '/login';
+                    } else {
+                        alert(data.error);
+                    }
+                })
+            button.classList.remove('loading');
+            button.textContent = 'Sign Up';
+            window.location.href = '/login.html';
+        });
+
+        document.getElementById('phone').addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        });
+    </script>
+</body>
+
+</html>

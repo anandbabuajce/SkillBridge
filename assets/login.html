@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SkillBridge</title>
+    <style>
+        :root {
+            --color-light-gray: #cad2c5;
+            --color-sage: #84a98c;
+            --color-medium-green: #52796f;
+            --color-dark-green: #354f52;
+            --color-darkest-green: #2f3e46;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background-color: var(--color-light-gray);
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Left Section Styles */
+        .left-section {
+            flex: 1;
+            background-color: var(--color-darkest-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--color-light-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--color-dark-green), var(--color-darkest-green));
+            opacity: 0.7;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .left-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-light-gray);
+        }
+
+        .left-content p {
+            font-size: 1.2rem;
+            color: var(--color-sage);
+        }
+
+        /* Right Section Styles */
+        .right-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-color: white;
+        }
+
+        .form-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(47, 62, 70, 0.1);
+        }
+
+        .form-box h2 {
+            color: var(--color-darkest-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        input {
+            padding: 12px;
+            border: 1px solid var(--color-sage);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--color-medium-green);
+            box-shadow: 0 0 0 2px rgba(82, 121, 111, 0.1);
+        }
+
+        button {
+            padding: 12px;
+            background-color: var(--color-medium-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--color-dark-green);
+        }
+
+        .redirect-text {
+            text-align: center;
+            color: var(--color-darkest-green);
+            margin-top: 1rem;
+        }
+
+        .redirect-text a {
+            color: var(--color-medium-green);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .redirect-text a:hover {
+            color: var(--color-dark-green);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-section {
+                flex: 0 0 200px;
+            }
+
+            .form-box {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Left Section (Branding) -->
+        <div class="left-section">
+            <div class="left-content">
+                <h1>SKILL-BRIDGE</h1>
+                <p>Connecting Talents With Opportunities</p>
+            </div>
+        </div>
+
+        <!-- Right Section (Login Form) -->
+        <div class="right-section">
+            <div class="form-box">
+                <h2>Login to Your Account</h2>
+                <form id="login-form">
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                    <button type="submit">Login</button>
+                    <p class="redirect-text">Don't have an account? <a href="signup.html">Sign Up</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        alert('Login successful');
+                        localStorage.setItem('email', email);
+                        if (data.user.type == 'worker') {
+                            window.location.href = '/worker.html';
+                        } else {
+                            window.location.href = '/employer.html';
+                        }
+                    }
+                })
+        });
+    </script>
+</body>
+
+</html>
